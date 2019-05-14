@@ -28,20 +28,67 @@ private $_cantMaxima;
     }
 
     public function AgregarPasajero($pasaj){
-        foreach($this->_listaDePasajeros as $pasajero){
-            if($pasajero->Equals($pasaj)){
-                if(count($this->_listaDePasajeros)<$this->_cantMaxima){
-                    array_push($this->_listaDePasajeros,$pasaj);
-                }else{
-                    echo nl2br("\nEste Vuelo se encuentra lleno");
+        $aux=false;
+        if(count($this->_listaDePasajeros)==0){
+            array_push($this->_listaDePasajeros,$pasaj);
+        }else{
+            foreach($this->_listaDePasajeros as $pasajero){
+                if($pasajero->Equals($pasaj)){
+                    $aux=true;
                 }
-            }else{
-                echo nl2br("\nEste pasajero ya se encuentra en el vuelo");
+            }
+            if(count($this->_listaDePasajeros) < $this->_cantMaxima && $aux!=true){
+                    
+                array_push($this->_listaDePasajeros,$pasaj);
             }
         }
     }
 
-
+    public function MostrarVuelo(){
+        echo nl2br("Fecha: " . $this->_fecha . "\n");
+        echo nl2br("Empresa: " . $this->_empresa . "\n");
+        echo nl2br("Precio: " . $this->_precio . "\n");
+        echo nl2br("Cantidad maxinma de pasajeros: " . $this->_cantMaxima . "\n");
+       foreach($this->_listaDePasajeros as $pasajero){
+        Pasajero::MostrarPasajero($pasajero);
+        }
     }
+
+    public static function Add($vuelo1, $vuelo2){
+        $acumulador=0;
+
+        $aux=$vuelo1->_precio/5;
+        foreach($vuelo1->_listaDePasajeros as $pasajero){
+            if($pasajero->getEsPLus){
+                $acumulador-=$aux;
+            }
+            $acumulador+=$vuelo1->_precio;
+        }
+        $aux=$vuelo2->_precio/5;
+        foreach($vuelo2->_listaDePasajeros as $pasajero){
+            if($pasajero->getEsPLus){
+                $acumulador-=$aux;
+            }
+            $acumulador+=$vuelo2->_precio;
+        }
+        return $acumulador;
+    }
+
+    public static function Remove($vuelo1,$pasajero){
+        $i=0;
+        foreach($vuelo1->_listaDePasajeros as $Pasaje){
+            
+            if($Pasaje->Equals($pasajero))
+            {
+                unset($vuelo1->_listaDePasajeros[$i]);
+                break;
+            }
+            $i++;
+        }    
+        return $vuelo1;
+    }
+
+
+}
 
 ?>

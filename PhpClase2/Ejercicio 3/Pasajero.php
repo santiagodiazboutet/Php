@@ -35,5 +35,9 @@ class Pasajero{
         echo nl2br("Es cliente plus : " . $Pasajero->_esPlus . "\n");
 
     }
+    public function getEsPLus(){
+        return $this->esPlus;
+
+    }
 }
 ?>
